@@ -1,29 +1,27 @@
 // src/App.jsx
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Profile from "./pages/Profile";
-import NotFound from "./pages/NotFound";
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./components/Home";
+import Profile from "./components/Profile";
+import BlogPost from "./components/BlogPost";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Login from "./components/Login";
 
-function App() {
+const App = () => {
   return (
-    <Router>
-      <nav className="p-4 bg-gray-800 text-white flex gap-4">
-        <Link to="/">Home</Link>
-        <Link to="/about">About</Link>
-        <Link to="/profile">Profile</Link>
-      </nav>
-
-      <div className="p-6">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/profile/*" element={<Profile />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </div>
-    </Router>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/profile/*" element={<ProtectedRoute />}>
+          <Route index element={<Profile />} />
+          <Route path="details" element={<ProfileDetails />} />
+          <Route path="settings" element={<ProfileSettings />} />
+        </Route>
+        <Route path="/blog/:id" element={<BlogPost />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
